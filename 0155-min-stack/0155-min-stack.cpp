@@ -2,11 +2,11 @@ class MinStack {
 public:
     stack<int>main,sub;
     MinStack() {
-        
+        sub.push(INT_MAX);
     }
     
     void push(int val) {
-        if(sub.empty()|| val<=sub.top())
+        if( val<=sub.top())
             sub.push(val);
         main.push(val);
     }
