@@ -25,24 +25,18 @@ class Solution
             if(M[dc][i]==0)ct++;
         }
         if(ct==M.size())flag=true;
-
+         
          
          
          
          //2) colum dc must have only 1 0 and all 1
          
          int ct_2=0;
-         bool col_check=false;
          for(int i=0;i<M.size();i++){
              if(M[i][dc]==1)ct_2++;
              
          }
-    if( (ct_2==M.size()-1) )
-    {
-        col_check=true;
-    }
-    
-    if(flag && col_check)return true;
+    if(flag && (ct_2==M.size()-1) && M[dc][dc]==0 )return true;
     else
     return false;
     }
