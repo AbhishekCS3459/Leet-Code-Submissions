@@ -15,31 +15,31 @@ class Solution
     vector <int> max_of_subarrays(int *arr, int n, int k)
     {
         // your code here
-        vector<int>ans;
-        int i=0;
-        int j=0;
         list<int>l;
-        int mx=INT_MIN;
+        int j=0;
+        int i=0;
+        vector<int>ans;
         while(j<n){
-            // WE WILL INSERT ONLY IMPORTANT ELEMENT IN THE LIST
-            while(!l.empty()&&l.back()<arr[j])l.pop_back();
+            // calculation
+            while(l.size()!=0 &&l.back()<arr[j])l.pop_back();// here we are popping so the the max element will be stored in the list first and then
+            // rest of the elements
             l.push_back(arr[j]);
             
             
             if(j-i+1<k)j++;
             else if(j-i+1==k){
+                // answer from calculation
                 ans.push_back(l.front());
-                if(l.front()==arr[i]){
-                   l.pop_front();
-                }
-                
-                    i++;
-                    j++;
-                
+                // we have to remove the calculation of the first element before slidin
+                 if(l.front()==arr[i])
+                 {
+                     l.pop_front();
+                 }
+                 i++;
+                 j++;
+           
             }
         }
-        
-        
         return ans;
     }
 };
