@@ -13,14 +13,11 @@ class Solution
     bool is_deserving(int top,vector<vector<int> >& M, int n){
        // for deserving it has all row 0
        bool flag=true;
-       for(int i=0;i<n;i++){
-           if(M[top][i]==1)flag=false;
-          else if((i!=top && M[i][top]==0) || M[top][top]==1)
-          flag=false;
-          
+       for(int i=0;i<n;i++)
+           if((M[top][i]) ||(i!=top && !M[i][top]) || M[top][top] )flag=false;
+         
            
-           
-       }
+       
        return flag;
        
     }
