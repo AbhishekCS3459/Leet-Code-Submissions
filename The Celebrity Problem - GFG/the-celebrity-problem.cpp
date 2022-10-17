@@ -9,62 +9,63 @@ using namespace std;
 
 class Solution 
 {
-    bool A_knows_B(int a,int b,vector<vector<int> >& M){
+    public:
+    bool is_deserving(int top,vector<vector<int> >& M, int n){
+        bool flag=true;
+        for(int i=0;i<n;i++){
+            if(M[top][i]==1)
+            flag=false;
+        }
+        for(int i=0;i<n;i++){
+            if(i!=top && M[i][top]==0 ||(i==top && M[i][top]!=1) )
+            flag=false;
+        
+            
+        }
+        return flag;
+    }
+    bool a_knows_b(int a,int b,vector<vector<int> >& M, int n){
         if(M[a][b]==1)return true;
         else
         return false;
     }
-    bool is_deserve(int dc,vector<vector<int> >& M){
-        // for dc to be deserving 
-        //1} row dc must be all zerro
-        
-        
-        int ct=0;
-        int flag=false;
-        for(int i=0;i<M.size();i++){
-            if(M[dc][i]==0)ct++;
-        }
-        if(ct==M.size())flag=true;
-         
-         
-         
-         
-         //2) colum dc must have only 1 0 and all 1
-         
-         int ct_2=0;
-         for(int i=0;i<M.size();i++){
-             if(M[i][dc]==1)ct_2++;
-             
-         }
-    if(flag && (ct_2==M.size()-1) && M[dc][dc]==0 )return true;
-    else
-    return false;
-    }
-    public:
-    stack<int>s;
     //Function to find if there is a celebrity in the party or not.
     int celebrity(vector<vector<int> >& M, int n) 
     {
         // code here 
-         for(int i=0;i<n;i++)
-         s.push(i);
-         while(s.size()>1){
-             int a=s.top();
-             s.pop();
-             int b=s.top();
-             s.pop();
-             if(A_knows_B(a,b,M))s.push(b);
-          else
-          s.push(a);
-             
-         }
-         int deserving=s.top();
-         if(is_deserve(deserving,M))return s.top();
-         else
-         
-         return -1;
-         
-         
+        // there are n persons
+        // ith person knows jth persons if M[i][j]==1
+        stack<int>s;
+        for(int i=0;i<n;i++){
+    // let suppose A,B,C are three persons so by inserting them all we will do below operations
+            s.push(i);  
+        }
+        while(s.size()!=1){
+            // pop a and b and check weather a know b or vice versa
+            int a=s.top();
+            s.pop();
+            int b=s.top();
+            s.pop();
+            if(a_knows_b(a,b,M,n)){
+                // then a cannot be the clebrity
+                s.push(b);
+                
+            }
+            else
+            s.push(a);
+        }
+        // now we have only one element in the stack which may be the possible candidate for the clebrity
+        int possible_candidate_for_clebrity=s.top();
+        //if all the clebrity row are 0 and all column are one except the candidate column
+        
+        // if(is_deserving(s.top(),M,n))return s.top();
+        // else
+        // return -1;
+        for(int i=0;i<n;i++){
+            if((i!=s.top() )&& (!M[i][s.top()]) || M[s.top()][i] )return -1;
+
+        }
+        return s.top();
     }
 };
 
