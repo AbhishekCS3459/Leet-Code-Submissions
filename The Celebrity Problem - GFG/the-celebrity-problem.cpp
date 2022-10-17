@@ -11,18 +11,18 @@ class Solution
 {
     public:
     bool is_deserving(int top,vector<vector<int> >& M, int n){
-        bool flag=true;
-        for(int i=0;i<n;i++){
-            if(M[top][i]==1)
-            flag=false;
-        }
-        for(int i=0;i<n;i++){
-            if(i!=top && M[i][top]==0 ||(i==top && M[i][top]!=1) )
-            flag=false;
-        
-            
-        }
-        return flag;
+       // for deserving it has all row 0
+       bool flag=true;
+       for(int i=0;i<n;i++){
+           if(M[top][i]==1)flag=false;
+          else if((i!=top && M[i][top]==0) || M[top][top]==1)
+          flag=false;
+          
+           
+           
+       }
+       return flag;
+       
     }
     bool a_knows_b(int a,int b,vector<vector<int> >& M, int n){
         if(M[a][b]==1)return true;
@@ -58,14 +58,13 @@ class Solution
         int possible_candidate_for_clebrity=s.top();
         //if all the clebrity row are 0 and all column are one except the candidate column
         
-        // if(is_deserving(s.top(),M,n))return s.top();
-        // else
-        // return -1;
-        for(int i=0;i<n;i++){
-            if((i!=s.top() )&& (!M[i][s.top()]) || M[s.top()][i] )return -1;
+        if(is_deserving(s.top(),M,n))return s.top();
+        else
+        // for(int i=0;i<n;i++){
+        //     if((i!=s.top() )&& (!M[i][s.top()]) || M[s.top()][i] )return -1;
 
-        }
-        return s.top();
+        // }
+        return -1;
     }
 };
 
