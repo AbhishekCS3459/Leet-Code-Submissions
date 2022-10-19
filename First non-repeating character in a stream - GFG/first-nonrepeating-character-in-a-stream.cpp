@@ -7,15 +7,15 @@ class Solution {
 	public:
 		string FirstNonRepeating(string A){
 		 unordered_map<char,int>m;
-		 queue<char>q;
+		 deque<char>q;
 		 string s="";
 		 for(int i=0;i<A.length();i++){
 		     m[A[i]]++;
-		     q.push(A[i]);
+		     q.push_back(A[i]);
 
 		     while(!q.empty()&&m[q.front()]>1 ){
               
-              q.pop();
+              q.pop_front();
 		     }
 		   
 		     if(!q.empty())s.push_back(q.front());
