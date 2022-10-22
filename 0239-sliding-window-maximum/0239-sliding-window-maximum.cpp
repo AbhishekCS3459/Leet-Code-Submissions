@@ -11,7 +11,7 @@ class Solution {
 public:
     vector<int> maxSlidingWindow(vector<int>& nums, int k) {
         vector<int>ans;
-        deque<int>l;
+        list<int>l; // or dqeue<int>dq we can use both
         int j=0,i=0;
         while(j<nums.size()){
                   // im am poping frm back because I want to perform the decreasing order     
