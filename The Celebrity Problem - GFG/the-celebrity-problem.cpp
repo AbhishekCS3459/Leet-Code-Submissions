@@ -10,20 +10,6 @@ using namespace std;
 class Solution 
 {
     public:
-     bool is_deserving(int top,vector<vector<int> >& M, int n){
-       // for deserving it has all row 0
-       bool flag=true;
-       for(int i=0;i<n;i++){
-           if(M[top][i]==1)flag=false;
-          else if((i!=top && M[i][top]==0) || M[top][top]==1)
-          flag=false;
-          
-           
-           
-       }
-       return flag;
-       
-    }
     //Function to find if there is a celebrity in the party or not.
     int celebrity(vector<vector<int> >& M, int n) 
     {
@@ -44,13 +30,15 @@ class Solution
         }
         
         // now there is a last person which is the one of the candatite for clebrity
-        
-     if(is_deserving(s.top(),M,n))return s.top();
-        else
-        return -1;
-    
-           
-
+        int candidate=s.top();
+        int flag=1;
+        for(int i=0;i<n;i++){
+            if(M[candidate][i]!=0 || ((i!=candidate) && M[i][candidate]==0))
+             flag=-1;
+        }
+     if(flag==1)return s.top();
+     else
+     return flag;
     }
 };
 
