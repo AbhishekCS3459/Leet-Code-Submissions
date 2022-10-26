@@ -1,53 +1,34 @@
 class MinStack {
 public:
-   long long mn;
-    stack<long long>s;
+    stack<int>s,sp;
+    int mn;
     MinStack() {
-     
-    }
-    // concept : we will create the encryption for the minimum element every time
-    void push(int val) {
-        if(s.empty()){
-
-            s.push(val);
-                        mn=val;
-        }
-
-        else{
-                     if(val>mn)s.push(val);
-            else{
-                
-            long long int encryption=(2ll* val)-mn;
-            mn=val;
+        mn=INT_MAX;
         
-s.push(encryption);
-            
-            }
-            
-        }
-         
+    }
+    
+    void push(int val) {
+              if(sp.empty()|| val<=sp.top())
+            sp.push(val);
+        s.push(val);
     }
     
     void pop() {
         if(s.empty())return ;
-        if(s.top()>=mn)s.pop();
-        else{
-            mn=2*mn-s.top();
-            s.pop();
-            
-        }
-        }
+         if(!sp.empty()&&sp.top()==s.top())sp.pop();
+        s.pop();
+    }
     
     int top() {
-        if(s.top()<mn){
-            return mn;
-        }
+        if(s.empty())return -1;
+        else
             return s.top();
-        
     }
     
     int getMin() {
-        return mn;
+        if(s.empty())return -1;
+        else
+            return sp.top();
     }
 };
 
