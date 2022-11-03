@@ -11,19 +11,17 @@
  */
 class Solution {
 public:
-    // Iterative Pre Order Traversal using stack
     vector<int> preorderTraversal(TreeNode* root) {
-        vector<int> ans;
-        if(root==NULL)return ans;
         stack<TreeNode*>st;
         st.push(root);
+        vector<int>ans;
+        if(root==NULL)return ans;
         while(!st.empty()){
             TreeNode*t=st.top();
             st.pop();
-             if(t->right!=NULL)st.push(t->right);
+            if(t->right!=NULL)st.push(t->right);
             if(t->left!=NULL)st.push(t->left);
             ans.push_back(t->val);
-        }
-        return ans;
+        }return ans;
     }
 };
