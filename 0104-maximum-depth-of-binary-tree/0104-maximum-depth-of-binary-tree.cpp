@@ -30,6 +30,8 @@ public:
     
     }
     int maxDepth(TreeNode* root) {
+        // Using DFS
+        
         if(root==NULL)return 0;
         level_wise_traversal(root);
         for(auto in : ans){
