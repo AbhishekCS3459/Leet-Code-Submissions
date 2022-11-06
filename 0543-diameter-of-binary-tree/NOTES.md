@@ -1,0 +1,1 @@
+**there will be three components of the diameter first is the left which contributes to it another is the right ones and the last is the combo of the heights of boths**
