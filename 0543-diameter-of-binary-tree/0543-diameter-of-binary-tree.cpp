@@ -11,16 +11,22 @@
  */
 class Solution {
 public:
-  // Brute force approach
-  int height(TreeNode*root){
-    if(root==NULL)return 0;
-    return max(height(root->left),height(root->right))+1;
-  }
+  // Love Bababar
+   pair<int,int>Optimised_function_for_diameter(TreeNode*root){
+          if(root==NULL)return {0,0};
+            pair<int,int> left=Optimised_function_for_diameter(root->left);
+            pair<int,int> right=Optimised_function_for_diameter(root->right);
+        
+        int op1=left.first;
+        int op2=right.first;
+        int combo=left.second+right.second;
+        
+        
+        int diameter=max(max(op1,op2), combo);
+        int max_height=1+max(left.second,right.second);
+        return {diameter,max_height};
+    }
     int diameterOfBinaryTree(TreeNode* root) {
-        if(root==NULL)return 0;
-      int left=diameterOfBinaryTree(root->left);
-      int right=diameterOfBinaryTree(root->right);
-      int combo=height(root->left)+height(root->right);
-      return (max(max(left,right),combo));
+        return Optimised_function_for_diameter(root).first;
     }
 };
