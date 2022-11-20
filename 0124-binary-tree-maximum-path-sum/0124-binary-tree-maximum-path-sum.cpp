@@ -11,7 +11,7 @@
  */
 class Solution {
 public:
-
+// STRIVER
   pair<int,int> Max_path_sum(TreeNode*root,int &mx){
     if(root==NULL)return {0,0};
     int left_sum=Max_path_sum(root->left,mx).first;
@@ -26,6 +26,7 @@ public:
     return {root->val+max(left_sum,right_sum),mx};
     
   }
+  
     int maxPathSum(TreeNode* root) {
       int mx=INT_MIN;
         return Max_path_sum(root,mx).second;
