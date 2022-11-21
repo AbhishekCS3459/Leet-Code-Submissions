@@ -137,10 +137,7 @@ void traverse_left(Node*root){
         inorder_traversal(root->right);
         // traverse the right part
         traverse_right(root->right);
-        // while(!st.empty()){
-        //     ans.push_back(st.top());
-        //     st.pop();
-        // }
+   
         return ans;
         
     }
