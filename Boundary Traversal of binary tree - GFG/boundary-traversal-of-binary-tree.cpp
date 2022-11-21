@@ -105,55 +105,54 @@ struct Node
 
 class Solution {
 public:
- vector <int> ans;
-
-void traverse_left(Node*root){
-    if(root==NULL ||root->left==NULL && root->right==NULL )return;
-    ans.push_back(root->data);
-    if(root->left)
-    traverse_left(root->left);
-    else
-    traverse_left(root->right); 
-}
-    void inorder_traversal(Node*root){
-        if(root==NULL){
-            return;
-        }
-        
-        inorder_traversal(root->left);
-        if(root->left==NULL && root->right==NULL)
-        ans.push_back(root->data);
-        inorder_traversal(root->right);
-    }
-    
+vector<int>ans;
     vector <int> boundary(Node *root)
     {
-        if(root==NULL)return ans;
-        //first get left excluding the left part
+        if(!root)return ans;
+        // get all the left nodes excluding the leaf nodes
         ans.push_back(root->data);
-        traverse_left(root->left);
-        // for left subtree
-        inorder_traversal(root->left);
-        inorder_traversal(root->right);
-        // traverse the right part
-        traverse_right(root->right);
-   
+        get_left_nodes_excluding_leaf(root->left);
+        // now get only leaf nodes
+        get_leaf(root->left);
+         get_leaf(root->right);
+        // get right excluding right
+        
+        get_right_nodes_excluding_leaf(root->right);
+        
         return ans;
         
+        
     }
-    
-void traverse_right(Node*root){
-    if(root==NULL)return;
-        if(root==NULL ||root->left==NULL && root->right==NULL )return;
-
-    if(root->right){
-    traverse_right(root->right); 
+    void get_left_nodes_excluding_leaf(Node*root){
+        if(root==NULL)return;
+        if(root->left==NULL && root->right==NULL)return;
+        ans.push_back(root->data);
+        if(root->left)
+        get_left_nodes_excluding_leaf(root->left);
+        else
+        get_left_nodes_excluding_leaf(root->right);
     }
-    else
-    traverse_right(root->left);
-    ans.push_back(root->data);
-    
-}
+    void get_leaf(Node*root){
+        if(root==NULL)return;
+         get_leaf(root->left);
+         
+         if(root->left==NULL && root->right==NULL)
+         ans.push_back(root->data);
+         
+         get_leaf(root->right);
+         
+         
+    }
+      void get_right_nodes_excluding_leaf(Node*root){
+        if(root==NULL)return;
+        if(root->left==NULL && root->right==NULL)return;
+      
+        if(root->right)
+         get_right_nodes_excluding_leaf(root->right);
+        else
+       get_right_nodes_excluding_leaf(root->left);
+          ans.push_back(root->data);
+    }
 };
 
 //{ Driver Code Starts.
