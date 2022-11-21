@@ -24,11 +24,13 @@ public:
         for(int  i=0;i<k;i++){
           TreeNode*t=q.front();
           q.pop();
+         
           if(t->left!=NULL)q.push(t->left);
             if(t->right!=NULL)q.push(t->right);
           temp.push_back(t->val);
         }
         
+         // extra part than level order traversal
         if(flag==1){
           reverse(temp.begin(),temp.end());
         
