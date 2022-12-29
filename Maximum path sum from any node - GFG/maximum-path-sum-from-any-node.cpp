@@ -83,17 +83,19 @@ Node *buildTree(string str) {
 
 class Solution {
   public:
+          int mx =INT_MIN;
     //Function to return maximum path sum from any node in a tree.
-    pair<int,int> maxpathsum(Node* root,int &mx){
+    int maxpathsum(Node* root){
         // check for each root that max of root->val with left and right
-        if(!root)return {0,0};
-        int left_sum = maxpathsum(root->left,mx).first;
+        if(!root)return 0;
+        int left_sum = maxpathsum(root->left);
         if(left_sum<0)left_sum=0;
-        int right_sum = maxpathsum(root->right,mx).first;
+        int right_sum = maxpathsum(root->right);
         if(right_sum<0)right_sum=0;
+        
         mx = max((root->data+left_sum+right_sum),mx);
         
-        return {(root->data+max(left_sum,right_sum)),mx};
+        return (root->data+max(left_sum,right_sum));
         
         
     }
@@ -101,8 +103,9 @@ class Solution {
     {
         // Your code goes here
         if(!root)return 0;
-        int mx =INT_MIN;
-        return maxpathsum(root,mx).second;
+
+        int ans= maxpathsum(root);
+        return mx;
     }
 };
 
