@@ -93,26 +93,20 @@ struct Node
 
 class Solution {
   public:
-  pair<int,int> diameter_of_tree(Node*root){
-      if(root==NULL)return {0,0};
-      pair<int,int>left = diameter_of_tree(root->left);
-      pair<int,int>right =diameter_of_tree(root->right);
-      
-      int op1 = left.first;
-      int op2 = right.first;
-      
-      int combo = left.second+1+right.second;
-      
-      int diameter = max(max(op1,op2),combo);
-      int height  = 1+ max(left.second,right.second);
-      
-      return {diameter,height};
-  }
     // Function to return the diameter of a Binary Tree.
+   pair<int,int> height(Node*rt){
+           if(!rt)return {0,0};
+           auto leftp = height(rt->left);
+           auto rightp = height(rt->right);
+           int op1=leftp.first;
+           int op2=rightp.first;
+           int combo = leftp.second+rightp.second+1;
+           int diameter = max(combo,max(op1,op2));
+           return {diameter,1+max(leftp.second,rightp.second)};
+       }
     int diameter(Node* root) {
         // Your code here
-        if (root==NULL)return 0;
-        return diameter_of_tree(root).first;
+        return height(root).first;
     }
 };
 
