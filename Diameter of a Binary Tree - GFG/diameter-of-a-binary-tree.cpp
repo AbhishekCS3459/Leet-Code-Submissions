@@ -93,20 +93,27 @@ struct Node
 
 class Solution {
   public:
+  int solve(Node*root,int &res){
+      if(!root)return 0;
+      // hypothesis
+      int l = solve(root->left,res);
+      int r = solve(root->right,res);
+      // induction
+      // when it is not the answer then it has to pass it up
+      int temp = 1+max(l,r);
+      // if it is itself a answer then 
+      int ans = max(temp,1+l+r);
+      res = max(res,ans);
+      return temp;
+      
+      
+  }
     // Function to return the diameter of a Binary Tree.
-   pair<int,int> height(Node*rt){
-           if(!rt)return {0,0};
-           auto leftp = height(rt->left);
-           auto rightp = height(rt->right);
-           int op1=leftp.first;
-           int op2=rightp.first;
-           int combo = leftp.second+rightp.second+1;
-           int diameter = max(combo,max(op1,op2));
-           return {diameter,1+max(leftp.second,rightp.second)};
-       }
     int diameter(Node* root) {
         // Your code here
-        return height(root).first;
+        int res=INT_MIN;
+       int temp= solve(root,res);
+        return res;
     }
 };
 
