@@ -17,15 +17,13 @@ class Solution
          q.push(arr[i]);
      }
         while(q.size()>1){
-            long long a=q.top();
+            long long t1=q.top();
             q.pop();
-            
-            long long b=q.top();
+            long long t2=q.top();
             q.pop();
-            
-            long long sum=a+b;
-            ans+=sum;
-            q.push(sum);
+            // long long sum=t1+t2;
+            q.push(t1+t2);
+            ans+=t1+t2;
         }
         return ans;
     }
