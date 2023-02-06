@@ -12,23 +12,54 @@ using namespace std;
 
 class Solution{
     public:
-    vector<int> mergeHeaps(vector<int> &a, vector<int> &b, int n, int m) {
-        priority_queue<int>q;
-        vector<int>ans;
-        // insertion takes log(n) time
-        for(auto in:a){
-            q.push(in);
+    //method 1
+    // vector<int> mergeHeaps(vector<int> &a, vector<int> &b, int n, int m) {
+    //     priority_queue<int>q;
+    //     vector<int>ans;
+    //     // insertion takes log(n) time
+    //     for(auto in:a){
+    //         q.push(in);
+    //     }
+    //       for(auto in:b){
+    //         q.push(in);
+    //     }
+    //     // deletion takes log(n) time 
+    //       while(!q.empty()){
+    //           int t=q.top();
+    //           q.pop();
+    //           ans.push_back(t);
+    //       }
+    //       return ans;
+    // }
+    //method 2
+    void heapify(vector<int>&arr,int i,int n){
+        int lar=i;
+        int l=2*i+1,r=2*i+2;
+        if(l<n&&arr[l]>arr[lar])
+        lar=l;
+        if(r<n&&arr[r]>arr[lar])
+        lar=r;
+        if(lar!=i)
+        {
+            swap(arr[lar],arr[i]);
+            heapify(arr,lar,n);
         }
-           for(auto in:b){
-            q.push(in);
+        
+    }
+    void build_heap(vector<int>&arr,int n){
+        for(int i=(n/2)-1;i>=0;i--){
+            heapify(arr,i,n);
         }
-        // deletion takes log(n) time 
-          while(!q.empty()){
-              int t=q.top();
-              q.pop();
-              ans.push_back(t);
-          }
-          return ans;
+    }
+      vector<int> mergeHeaps(vector<int> &a, vector<int> &b, int n, int m) {
+        // vector<int>ans;
+        for(auto in:b)
+        {
+            a.push_back(in);
+        }
+        
+        build_heap(a,n+m);
+          return a;
     }
 };
 
