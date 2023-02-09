@@ -19,20 +19,46 @@ class Solution
 {
     public:
     //Function to merge k sorted arrays.
+    class node{
+        public:
+        int data,row,col;
+        node(int data,int i,int j){
+            this->data=data;
+           this-> row=i;
+            this->col=j;
+        }
+    };
+    class compare{
+        public:
+        bool operator()(node*a, node*b){
+          return a->data > b->data;
+      }
+    };
     vector<int> mergeKArrays(vector<vector<int>> arr, int K)
     {
         //code here
-        priority_queue<int,vector<int>,greater<int>>pq;
-        for(auto in:arr){
-            for(auto ele:in){
-                pq.push(ele);
+            vector<int> ans;
+            priority_queue<node*,vector<node*>,compare>pq;
+        // we need the first element of  all the arrrays
+        for(int i=0;i<K;i++){
+            node*n1=new node(arr[i][0],i,0);
+            pq.push(n1);
+        }
+        
+        while(!pq.empty()){
+            auto tp=pq.top();
+            ans.push_back(tp->data);
+            pq.pop();
+            
+            int row=tp->row;
+            int col=tp->col;
+            
+            if(col+1<arr[row].size()){
+                node*n2=new node(arr[row][col+1],row,col+1);
+                pq.push(n2);
             }
         }
-            vector<int> ans;
-            while(!pq.empty()){
-                ans.push_back(pq.top());
-                pq.pop();
-            }return ans;
+        return ans;
     }
 };
 
