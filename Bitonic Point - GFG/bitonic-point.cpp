@@ -8,7 +8,7 @@ using namespace std;
 //User function template for C++
 class Solution{
 public:
-	
+	// same as peak element
 	int findMaximum(int arr[], int n) {
 	    // code here
 	    int s=0,mid,e=n-1;
