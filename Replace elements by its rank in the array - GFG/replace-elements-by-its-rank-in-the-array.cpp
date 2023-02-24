@@ -9,42 +9,57 @@ using namespace std;
 
 class Solution{
 public:
-class node{
-    public:
-    int data;
-    int idx;
-    node(int data, int idx){
-        this->data=data;
-        this->idx=idx;
-    }
-};
-class compare{
-  public:
-  bool operator()(node*a,node*b){
-  return a->data>b->data;
-      
-  }
-};
-    vector<int> replaceWithRank(vector<int> &arr, int N){
+// This class defines a node with a value and an index.
+class Node {
+public:
+    int value; // The value of the node.
+    int index; // The index of the node in the original array.
 
-         priority_queue<node*,vector<node*>,compare>pq;
-         for(int i=0;i<N;i++)
-             pq.push(new node(arr[i],i));
-             
-             int ct=0,t=INT_MIN;
-             while(!pq.empty()){
-                 auto tp=pq.top();
-                 pq.pop();
-                 ct++;
-                 if(t==tp->data)
-                 ct--;
-                 t=tp->data;
-                 int id=tp->idx;
-                 arr[id]=ct;
-             }
-             return arr;
-             
+    // Constructor that initializes the value and index of the node.
+    Node(int value, int index) {
+        this->value = value;
+        this->index = index;
     }
+};
+
+// This class defines a comparator function for Node objects.
+class NodeComparator {
+public:
+    bool operator()(Node* a, Node* b) {
+        // Compares the values of the two Node objects.
+        return a->value > b->value;
+    }
+};
+
+// This function takes an array of integers and replaces each element with its rank (1-based).
+vector<int> replaceWithRank(vector<int>& arr, int N) {
+    // Creates a priority queue of Node pointers using the custom comparator.
+    priority_queue<Node*, vector<Node*>, NodeComparator> pq;
+
+    // Adds all elements of the input array to the priority queue as Nodes.
+    for (int i = 0; i < N; i++) {
+        pq.push(new Node(arr[i], i));
+    }
+
+    // Repeatedly pops the smallest Node from the priority queue and replaces its corresponding element in the array with its rank.
+    int rank = 0;
+    int prevValue = INT_MIN;
+    while (!pq.empty()) {
+        Node* current = pq.top();
+        pq.pop();
+        rank++;
+        if (prevValue == current->value) {
+            rank--;
+        }
+        prevValue = current->value;
+        int index = current->index;
+        arr[index] = rank;
+    }
+
+    // Returns the modified array.
+    return arr;
+}
+
 
 };
 
