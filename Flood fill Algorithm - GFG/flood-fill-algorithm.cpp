@@ -6,12 +6,13 @@ using namespace std;
 class Solution {
 public:
 
-    void bfs(int row, int col, vector<vector<int>> &image, vector<vector<bool>> &vis,int color)
+    void Connected_cmp_bfs(int row, int col, vector<vector<int>> &image, vector<vector<bool>> &vis,int color)
     {
         queue<pair<int, int>> q;
         int n = image.size(), m = image[0].size();
        int initial_color=image[row][col];
         image[row][col]=color;
+        
         vis[row][col] = true;
         q.push({row, col});
         while (!q.empty())
@@ -46,7 +47,7 @@ public:
         //concept fill all the connected component form the starting node with the color mentioned
      int n=image.size(),m=image[0].size();
        vector<vector<bool>>vis(n,vector<bool>(m,false));
-       bfs(sr,sc,image,vis,newColor);
+       Connected_cmp_bfs(sr,sc,image,vis,newColor);
        
         return image;
     }
