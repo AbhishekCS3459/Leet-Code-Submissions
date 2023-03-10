@@ -5,7 +5,8 @@ using namespace std;
 // } Driver Code Ends
 class Solution {
 public:
-
+int delta_row[4]={-1,0,1,0};
+int delta_col[4]={0,1,0,-1};
     void Connected_cmp_bfs(int row, int col, vector<vector<int>> &image, vector<vector<bool>> &vis,int color)
     {
         queue<pair<int, int>> q;
@@ -21,24 +22,19 @@ public:
             int y_axis = q.front().second;
             q.pop();
 
-            for (int dr = -1; dr <= 1; dr++)
+            image[x_axis][y_axis]=color;
+            for (int i = 0;i< 4;i++)
             {
-                for (int dc = -1; dc <= 1; dc++)
-                {
-                  if(dr*dc==-1   ||  (dr*dc==1))continue; // ignoring the diogonal elements
-
-                    int new_row = x_axis + dr;
-                    int new_col = y_axis + dc;
+                    int new_row = x_axis + delta_row[i];
+                    int new_col = y_axis + delta_col[i];
                     
-
                     if (new_row < n && new_row >= 0 && new_col < m && new_col >= 0 && image[new_row][new_col] == initial_color  && !vis[new_row][new_col])
                     {
                         // cout<<"newrow"<<new_row<<"new col"<<new_col<<endl;
                         vis[new_row][new_col] = true;
-                        image[new_row][new_col]=color;
                         q.push({new_row, new_col});
                     }
-                }
+                
             }
         }
     }
