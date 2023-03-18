@@ -8,7 +8,8 @@ class Solution {
     // Function to detect cycle in a directed graph.
     bool isCyclic(int V, vector<int> adj[]) {
         // code here
-        vector<int>ans,indg(V,0);
+        vector<int>indg(V,0);
+        int ct=0;
         queue<int>q;
         for(int i=0;i<V;i++){
             for(auto in:adj[i]){
@@ -27,10 +28,11 @@ class Solution {
 	            indg[in]--;
 	            if(indg[in]==0)q.push(in);
 	        }
-	        ans.push_back(t);
+	       // ans.push_back(t);
+	       ct++;
 	    }
 
-        return V!=ans.size();
+        return V!=ct;
     }
 };
 
