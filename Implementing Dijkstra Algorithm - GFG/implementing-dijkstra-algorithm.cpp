@@ -37,6 +37,9 @@ class Solution
                int new_nd=in[0]; // 1 
                int new_weight=in[1];  // 9
                if(dist_till_curr+new_weight<dist[new_nd]){   //9+0<int_max
+                  
+                  if(dist[new_nd]!=INT_MAX)st.erase({dist[new_nd],new_nd});
+                  
                   dist[new_nd]=dist_till_curr+new_weight;  //dist[1]=9;
                   st.insert({dist[new_nd],new_nd});   // push {9,1}
                }
