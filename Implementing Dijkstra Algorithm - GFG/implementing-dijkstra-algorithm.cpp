@@ -29,9 +29,9 @@ class Solution
         dist[S]=0;
         
        while(!st.empty()){
-           auto front=*(st.begin());
-           int dist_till_curr= front.first;// 0
-           int value_of_curr=front.second;
+           auto front=*st.begin();
+           int dist_till_curr=front.first;// 0
+           int value_of_curr=front.second;// 0
            st.erase(st.begin());
            for(auto in:adj[value_of_curr]){
                int new_nd=in[0]; // 1 
