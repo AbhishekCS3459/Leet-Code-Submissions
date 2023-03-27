@@ -8,45 +8,38 @@ class Solution
 	public:
 	//Function to find the shortest distance of all the vertices
     //from the source vertex S.
-      bool operator()(pair<int,int>&a,pair<int,int>& b)
-    {
-        // Compare on basis of roll number
-        if (a.first ==b.first) {
-            return a.second<b.second;
-        }
-        return a.first<b.first;
-    }
-    
-    
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
-        // initialis pq and vector
         set<pair<int,int>>st;
-        vector<int>dist(V,1e9);
         
+        vector<int>dist(V,1e9);
+        dist[S]=0;
         st.insert({0,S});
         
-        dist[S]=0;
-        
-       while(!st.empty()){
-           auto front=*st.begin();
-           int dist_till_curr=front.first;// 0
-           int value_of_curr=front.second;// 0
-           st.erase(st.begin());
-           for(auto in:adj[value_of_curr]){
-               int new_nd=in[0]; // 1 
-               int new_weight=in[1];  // 9
-               if(dist_till_curr+new_weight<dist[new_nd]){   //9+0<int_max
-                  
-                  if(dist[new_nd]!=INT_MAX)st.erase({dist[new_nd],new_nd});
-                  
-                  dist[new_nd]=dist_till_curr+new_weight;  //dist[1]=9;
-                  st.insert({dist[new_nd],new_nd});   // push {9,1}
-               }
-           }
-       }
-       
-       return dist;
+        while(!st.empty()){
+            
+            auto top = *st.begin();
+            int dis = top.first;
+            int value=top.second;
+            
+            st.erase(st.begin());
+            
+            for(auto in:adj[value]){
+                
+                int curr_value=in[0];
+                int wt=in[1];
+                
+                if(wt+dis<dist[curr_value]){
+                    
+                    if(dist[curr_value]!=INT_MAX)
+                        st.erase({dist[curr_value],curr_value});
+                        
+                    dist[curr_value]= wt+dis;
+                    st.insert({dist[curr_value],curr_value});
+                }
+            }
+        }
+        return dist;
     }
 };
 
