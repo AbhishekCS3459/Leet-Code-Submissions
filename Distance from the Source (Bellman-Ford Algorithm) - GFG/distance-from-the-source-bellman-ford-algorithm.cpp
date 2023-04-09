@@ -13,27 +13,30 @@ class Solution {
     *   V: number of vertices
     */
     vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) {
-        
         vector<int>dist(V,1e8);
-        
         dist[S]=0;
-        // time complexuty O(V*E),space --> O(N)
         for(int i=0;i<V-1;i++){
-           for(auto in:edges){
-               int u=in[0],v=in[1],wt=in[2];
-               if(dist[u]!=INT_MAX && dist[u]+wt<dist[v]){
-                   dist[v]=dist[u]+wt;
-               }
-           }
+            for(auto in:edges){
+                int u=in[0];
+                int v=in[1];
+                int wt=in[2];
+                if(dist[u]!=INT_MAX && dist[u]+wt<dist[v]){
+                 dist[v] = dist[u]+wt;
+                }
+            }
         }
-        // checking the negative cycle
-           for(auto in:edges){
-               int u=in[0],v=in[1],wt=in[2];
-               if(dist[u]!=INT_MAX && dist[u]+wt<dist[v]){
-                   return {-1};
-               }
-        }
+        // to detect the negative cycle run the loop again
+          for(auto in:edges){
+                int u=in[0];
+                int v=in[1];
+                int wt=in[2];
+                if(dist[u]!=INT_MAX && dist[u]+wt<dist[v]){
+                //  dist[v] = dist[u]+wt;
+                return {-1};
+                }
+            }
         return dist;
+        
     }
 };
 
