@@ -6,25 +6,53 @@ using namespace std;
 class Solution
 {
 	public:
-
-	//Function to find sum of weights of edges of the Minimum Spanning Tree.
+	class node{
+	  public:
+	  int dist;
+	  int val;
+	  int parent;
+	  node(int dist,int val,int parent){
+	      this->dist=dist;
+	      this->val=val;
+	      this->parent=parent;
+	  }
+};
+class compare{
+    public:
+  bool operator()(node*a,node*b){
+      return a->dist>b->dist;
+  }  
+};
+//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
     {
-        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
+      priority_queue< node* , vector<node*>, compare >pq;
+
         vector<int>vis(V,0);
         vector<pair<int,int>>mst;
-        pq.push({0,0});
+        
+        pq.push(new node(0,0,-1));
+        
         int sum=0;
+        
         while(!pq.empty()){
-            int dist=pq.top().first,nd=pq.top().second;
+          int dis=pq.top()->dist;
+          int nd=pq.top()->val;
+          int par=pq.top()->parent;
+          
+          
             pq.pop();
             if(vis[nd]==1)continue;
+            
             vis[nd]=1;
-            sum+=dist;
+            sum+=dis;
+            
             for(auto in:adj[nd]){
+                
                 int adjnode=in[0],new_dist=in[1];
+                
                 if(vis[adjnode]==0)
-                pq.push({new_dist,adjnode});
+                pq.push(new node(new_dist,adjnode,nd));
             }
         }
         return sum;
