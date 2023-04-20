@@ -7,89 +7,65 @@ using namespace std;
 // } Driver Code Ends
 // User function Template for C++
 class Solution {
-    class DisjointSet
-{
-    vector<int> parent, size;
-
+int dx[4]={-1,1,0,0};
+int dy[4]={0,0,-1,1};
+class DisjointSet {
+    std::vector<int> parent, size;
 public:
-    DisjointSet(int n)
-    {
-        parent.resize(n + 1, 0);
-        size.resize(n + 1, 0);
-        for (int i = 0; i <= n; i++)
-        {
-            parent[i] = i;
-            size[i] = 1;
-        }
+    DisjointSet(int n) : parent(n), size(n, 1) {
+        std::iota(parent.begin(), parent.end(), 0);
     }
-    int find(int v)
-    {
+
+    int find(int v) {
         if (parent[v] == v)
             return v;
-        // compression
         return parent[v] = find(parent[v]);
     }
-    void Union(int a, int b)
-    {
+
+    void unite(int a, int b) {
         a = find(a);
         b = find(b);
-        if (a != b)
-        {
+        if (a != b) {
             if (size[a] < size[b])
-                swap(a, b); // size optimization
-            parent[a] = b;
+                std::swap(a, b);
+            parent[b] = a;
+            size[a] += size[b];
         }
     }
-};
- int dx[4]={-1,1,0,0};
-int dy[4]={0,0,-1,1};
 
-  public:
-vector<int> numOfIslands(int n, int m, vector<vector<int>> &operators) {
-    
-vector<int>ans;
- vector<vector<int>>vis(n,vector<int>(m,0));
- 
- int ct=0;
- 
- DisjointSet ds(n*m);
- 
-for(auto in:operators){
-    
-    int row=in[0],col=in[1];
-    
-    if(vis[row][col]==1){
-        ans.push_back(ct);
-        continue;
-        
-    }
-    
-    else{
-        vis[row][col]=1;
-        ct++;
-        
-        for(int i=0;i<4;i++){
-            
-            int nx=dx[i]+row;
-            int ny=dy[i]+col;
-            
-            if(nx>=0&&ny>=0&&nx<n&&ny<m&&vis[nx][ny]==1){
-                
-                int curr_num=row*m+col;
-                int adj_num=nx*m+ny;
-                
-                if(ds.find(adj_num)!=ds.find(curr_num)){
-                    ct--;
-                    ds.Union(curr_num,adj_num);
+};
+public:
+vector<int> numOfIslands(int n, int m, const vector<vector<int>>& operators) {
+    vector<int> ans;
+    vector<vector<bool>> vis(n, vector<bool>(m));
+    DisjointSet ds(n * m);
+
+    int ct = 0;
+    for (const auto& op : operators) {
+        int row = op[0], col = op[1];
+        if (vis[row][col]) {
+            ans.push_back(ct);
+            continue;
+        }
+        vis[row][col] = true;
+        ++ct;
+        int curr_num = row * m + col;
+        for (int d = 0; d < 4; ++d) {
+            int nx = row + dx[d], ny = col + dy[d];
+            if (nx >= 0 && nx < n && ny >= 0 && ny < m && vis[nx][ny]) {
+                int adj_num = nx * m + ny;
+                if (ds.find(adj_num) != ds.find(curr_num)) {
+                    --ct;
+                    ds.unite(curr_num, adj_num);
                 }
             }
         }
+        ans.push_back(ct);
     }
-    
-    ans.push_back(ct);
+    return ans;
 }
- return ans;
-    }
+
+    
 };
 
 
