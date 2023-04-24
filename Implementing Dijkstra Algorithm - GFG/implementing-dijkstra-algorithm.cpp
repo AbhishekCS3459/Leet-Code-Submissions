@@ -10,36 +10,29 @@ class Solution
     //from the source vertex S.
     vector <int> dijkstra(int V, vector<vector<int>> adj[], int S)
     {
-        set<pair<int,int>>st;
-        
+        // initialis pq and vector
+        priority_queue<pair<int,int>,vector<pair<int,int>>,greater<pair<int,int>>>pq;
         vector<int>dist(V,1e9);
-        dist[S]=0;
-        st.insert({0,S});
         
-        while(!st.empty()){
-            
-            auto top = *st.begin();
-            int dis = top.first;
-            int value=top.second;
-            
-            st.erase(st.begin());
-            
-            for(auto in:adj[value]){
-                
-                int curr_value=in[0];
-                int wt=in[1];
-                
-                if(wt+dis<dist[curr_value]){
-                    
-                    if(dist[curr_value]!=INT_MAX)
-                        st.erase({dist[curr_value],curr_value});
-                        
-                    dist[curr_value]= wt+dis;
-                    st.insert({dist[curr_value],curr_value});
-                }
-            }
-        }
-        return dist;
+        pq.push({0,S});
+        
+        dist[S]=0;
+        
+       while(!pq.empty()){
+           int dist_till_curr=pq.top().first;// 0
+           int value_of_curr=pq.top().second;// 0
+           pq.pop();
+           for(auto in:adj[value_of_curr]){
+               int new_nd=in[0]; // 1 
+               int new_weight=in[1];  // 9
+               if(dist_till_curr+new_weight<dist[new_nd]){   //9+0<int_max
+                  dist[new_nd]=dist_till_curr+new_weight;  //dist[1]=9;
+                  pq.push({dist[new_nd],new_nd});   // push {9,1}
+               }
+           }
+       }
+       
+       return dist;
     }
 };
 
