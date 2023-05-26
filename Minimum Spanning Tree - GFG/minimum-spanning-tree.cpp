@@ -5,70 +5,54 @@ using namespace std;
 // } Driver Code Ends
 class Solution
 {
-    // make a dsu data structure
-class DisjointSet
-{
-    vector<int> parent, size;
-
-public:
-    DisjointSet(int n)
-    {
-        parent.resize(n + 1, 0);
-        size.resize(n + 1, 0);
-        for (int i = 0; i <= n; i++)
-        {
-            parent[i] = i;
-            size[i] = 1;
-        }
-    }
-    int find(int v)
-    {
-        if (parent[v] == v)
-            return v;
-        // compression
-        return parent[v] = find(parent[v]);
-    }
-
-    void Union(int a, int b)
-    {
-        a = find(a);
-        b = find(b);
-        if (a != b)
-        {
-            if (size[a] < size[b])
-                swap(a, b); // size optimization
-            parent[a] = b;
-        }
+	public:
+	class node{
+	  public:
+	  int dist;
+	  int val;
+	  int parent;
+	  node(int dist,int val,int parent){
+	      this->dist=dist;
+	      this->val=val;
+	      this->parent=parent;
+	  }
+};
+class Compare{
+    public:
+    bool operator()(node*a,node*b){
+        return a->dist>b->dist;
     }
 };
-
-	public:
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
     {
-        vector<pair<int,pair<int,int>> >edges;
-        for(int i=0;i<V;i++){
-            for(auto in:adj[i]){
-                int v=in[0];
-                int wt=in[1];
-                edges.push_back({wt,{i,v}});
+        priority_queue<node*,vector<node*>,Compare>pq;
+        pq.push(new node(0,0,-1));
+        vector<int>vis(V,0);
+        vector<pair<int,int>>mst;
+        int sum=0;
+        while(!pq.empty()){
+            int curr_val=pq.top()->val;
+            int curr_dis=pq.top()->dist;
+            int par=pq.top()->parent;
+            pq.pop();
+            // if the node is visited already then skip all operation
+            if(vis[curr_val]==1){
+                continue;
+            }
+            vis[curr_val]=1;
+            sum+=curr_dis;
+            
+            mst.push_back({curr_val,par});
+            for(auto in:adj[curr_val]){
+                int new_val=in[0];
+                int new_wt=in[1];
+                if(vis[new_val]==0){
+                    pq.push(new node(new_wt,new_val,curr_val));
+                }
             }
         }
-        sort(edges.begin(),edges.end());
-        // cout<<edges[0].first<<endl;
-         int MST_SUM=0;
-         DisjointSet d1(V);
-       
-             for(auto in:edges){
-                 int wt=in.first;
-                 int u=in.second.first;
-                 int v=in.second.second;
-                 if(d1.find(v)!=d1.find(u)){
-                     d1.Union(u,v);
-                     MST_SUM+=wt;
-             }
-         }
-         return MST_SUM;
+        return sum;
     }
 };
 
