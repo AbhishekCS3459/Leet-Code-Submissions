@@ -6,50 +6,64 @@ using namespace std;
 class Solution
 {
 	public:
-	class node{
+	
+	class DisjointSet{
 	  public:
-	  int dist;
-	  int val;
-	  int parent;
-	  node(int dist,int val,int parent){
-	      this->dist=dist;
-	      this->val=val;
-	      this->parent=parent;
-	  }
-};
-class Compare{
-    public:
-    bool operator()(node*a,node*b){
-        return a->dist>b->dist;
-    }
-};
+	  vector<int>parent,size;
+	    DisjointSet(int n){
+	        parent.resize(n+1);
+	        size.resize(n+1);
+	        for(int i=0;i<=n;i++){
+	            parent[i]=i;
+	            size[i]=1;
+	        }
+	    }
+	    int find(int u){
+	        if(parent[u]==u)return u;
+	        return parent[u]=find(parent[u]);
+	    }
+	   
+	   
+	 void Union(int a, int b)
+      {
+        a = find(a);
+        b = find(b);
+        if (a != b)
+        {
+            if (size[a] < size[b])
+               swap(a, b); // size optimization
+            parent[a] = b;
+        }
+     }
+	};
+// 	class Compare{
+// 	  public:
+// 	  bool operator()(Node* a,Node* b){
+	      
+// 	  }
+// 	};
 	//Function to find sum of weights of edges of the Minimum Spanning Tree.
     int spanningTree(int V, vector<vector<int>> adj[])
     {
-        priority_queue<node*,vector<node*>,Compare>pq;
-        pq.push(new node(0,0,-1));
-        vector<int>vis(V,0);
-        vector<pair<int,int>>mst;
+        // Implementig using kuskral algo
+        //sorting the edges on the basis of their wieghts using priority queue
+        priority_queue<pair<int, pair<int,int>>>pq;
+        for(int i=0;i<V;i++){
+            for(auto in:adj[i]){
+                pq.push({(-1*in[1]),{i,in[0]}});
+            }
+        }
+        DisjointSet d1(V);
         int sum=0;
         while(!pq.empty()){
-            int curr_val=pq.top()->val;
-            int curr_dis=pq.top()->dist;
-            int par=pq.top()->parent;
+            int wt=pq.top().first;
+            int u=pq.top().second.first;
+            int v=pq.top().second.second;
             pq.pop();
-            // if the node is visited already then skip all operation
-            if(vis[curr_val]==1){
-                continue;
-            }
-            vis[curr_val]=1;
-            sum+=curr_dis;
-            
-            mst.push_back({curr_val,par});
-            for(auto in:adj[curr_val]){
-                int new_val=in[0];
-                int new_wt=in[1];
-                if(vis[new_val]==0){
-                    pq.push(new node(new_wt,new_val,curr_val));
-                }
+            if(d1.find(u)!=d1.find(v)){
+                // both belong to diffrent compo
+                d1.Union(u,v);
+                sum+=abs(wt);
             }
         }
         return sum;
