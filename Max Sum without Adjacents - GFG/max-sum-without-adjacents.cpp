@@ -32,7 +32,22 @@ public:
 	     
 	    return max(not_picked,picked);
 	}
-
+//optimization 1 --> tabulation
+int solve_tabulation(int *arr,int idx,int n,int dp[]){
+    dp[0]=arr[0];
+    int mx=INT_MIN;
+    int sum=0;
+      for(int i=1;i<n;i++){
+         int picked=arr[i];
+          if(i>1)
+            picked+=dp[i-2];
+            
+        int not_picked=dp[i-1];
+     
+         dp[i]=max(picked,not_picked);
+      }
+      return dp[n-1];
+}
 	int findMaxSum(int *arr, int n) {
 	    // code here
 	    if(n<=1)return arr[0];
@@ -41,7 +56,7 @@ public:
 	    for(int i=0;i<n;i++){
 	        dp[i]=-1;
 	    }
-	    return solve(arr,idx,n,dp);
+	    return solve_tabulation(arr,idx,n,dp);
 	}
 };
 
