@@ -6,32 +6,37 @@ using namespace std;
 class Solution
 {
 	public:
+
 	//Function to return list containing vertices in Topological order. 
 	vector<int> topoSort(int V, vector<int> adj[]) 
 	{
+	    // code here
 	    vector<int>indegree(V,0);
-	    for(auto i=0;i<V;i++){
-	        for(auto in:adj[i]){
-	            indegree[in]++;
-	        }
-	    }
-	    queue<int>q;
-	    for(int i=0;i<V;i++){
-	        if(indegree[i]==0){
-	            q.push(i);
-	        }
-	    }
-	    vector<int>ans;
-	    while(!q.empty()){
-	        int t=q.front();
-	        q.pop();
-	        for(auto in:adj[t]){
-	            indegree[in]--;
-	            if(indegree[in]==0)q.push(in);
-	        }
-	        ans.push_back(t);
-	    }
-	    return ans;;
+	      for(int i=0;i<V;i++){
+	         for(auto in:adj[i]){
+	          indegree[in]++;
+	      }}
+
+      // now perform bfs according to indegree=0
+      vector<int>ans;
+    queue<int>q;
+      for(int i=0;i<indegree.size();i++){
+          if(indegree[i]==0)
+          q.push(i);
+      }
+        while(!q.empty()){
+            int top=q.front();
+            q.pop();
+            ans.push_back(top);
+            for(auto in:adj[top]){
+                indegree[in]--;
+                if(indegree[in]==0){
+                q.push(in);
+                }
+
+            }
+        }
+	    return ans;
 	}
 };
 
